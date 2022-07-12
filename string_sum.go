@@ -2,6 +2,8 @@ package string_sum
 
 import (
 	"errors"
+	"fmt"
+	"strings"
 )
 
 //use these errors as appropriate, wrapping them with fmt.Errorf function
@@ -23,5 +25,19 @@ var (
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
 func StringSum(input string) (output string, err error) {
-	return "", nil
+
+	if input == "" {
+		return "", fmt.Errorf("input is empty: %w", errorEmptyInput)
+	}
+	if CountOperands(input) != 2 {
+		return "", fmt.Errorf("expecting two operands, but received more or less: %w", errorNotTwoOperands)
+	}
+	return output, nil
+}
+
+func CountOperands(input string) (count int) {
+	for _, operands := range strings.Split(input, "+") {
+		count += len(strings.Split(operands, "+"))
+	}
+	return count
 }
